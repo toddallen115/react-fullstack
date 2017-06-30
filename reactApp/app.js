@@ -4,9 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 
-const dummyData = ["Get groceries", "Finish this code", "Practice promises", "Watch fireworks"];
+const dummyData = [{taskText: "Get groceries", completed: true},
+                  {taskText: "Finish this code", completed: false},
+                  {taskText: "Practice promises", completed: false},
+                  {taskText: "Watch fireworks", completed: false}];
 
-class TodoList extends React.Component {
+
+class InputLine extends React.Component { //TODO this can be made a function?
   constructor(props){
     super(props)
   }
@@ -14,9 +18,45 @@ class TodoList extends React.Component {
   render(){
     return(
       <div>
+        <form>
+          <input type="text" placeholder="Task" />
+          <input type="submit" value="Add todo" />
+        </form>
+      </div>
+    )
+  }
+}
+
+class TodoList extends React.Component {
+  render(){
+    return( //TODO strikethrough if completed
+      <div>
         <ul>
-          {dummyData.map( (todo) => <li><button>X</button> {todo}</li> )}
+          {this.props.todos.map((todo) => <li><button>X</button> {todo.taskText}</li>)}
         </ul>
+      </div>
+    )
+  }
+}
+
+class TodoApp extends React.Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      todos: [],
+    }
+  }
+
+  componentDidMount(){
+    this.setState({todos: dummyData});
+  }
+
+  render(){
+    return(
+      <div>
+        <InputLine />
+        <TodoList todos={this.state.todos} />
       </div>
     )
   }
@@ -24,5 +64,5 @@ class TodoList extends React.Component {
 
 
 
-ReactDOM.render(<TodoList />,
+ReactDOM.render(<TodoApp />,
    document.getElementById('root'));
