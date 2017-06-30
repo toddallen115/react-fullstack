@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoList from './TodoList.js';
-import InputLine from './Todo.js';
+import InputLine from './InputLine.js';
 
 const dummyData = [{taskText: "Get groceries", completed: true},
                   {taskText: "Finish this code", completed: false},
@@ -26,11 +26,17 @@ class TodoApp extends React.Component {
     this.setState({todos: newData});
   }
 
+  removeTodo(index){
+    var newData = dummyData;
+    newData.splice(index, 1);
+    this.setState({todos: newData});
+  }
+
   render(){
     return(
       <div>
         <InputLine submit={(t) => this.addTodo(t)} />
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={this.state.todos} todoXClick={(i) => this.removeTodo(i)} />
       </div>
     )
   }
